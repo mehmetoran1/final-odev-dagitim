@@ -1,0 +1,21 @@
+<div class="container">
+
+  <mat-card class="login-card">
+  
+    <mat-toolbar color="primary">
+      <span>Oturum Aç</span>
+    </mat-toolbar>
+    <mat-form-field style="margin-top: 15px;" appearance="outline">
+      <mat-label>Kullancı Adı</mat-label>
+      <input matInput placeholder="Kullancı Adı" type="text" #kadi>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+      <mat-label>Parola</mat-label>
+      <input matInput placeholder="Parola" type="password" #parola>
+    </mat-form-field>
+  
+    <mat-card-actions>
+      <button class="login-btn" mat-raised-button color="primary" (click)="OturumAc(kadi.value,parola.value)">GİRİŞ YAP</button>
+    </mat-card-actions>
+  </mat-card>
+</div>

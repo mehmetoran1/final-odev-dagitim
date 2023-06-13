@@ -1,0 +1,70 @@
+<div class="container">
+  <h1>Ödevler</h1>
+  <div *ngIf="secOgr">
+    <p><b>Öğrenci Adı : </b>{{secOgr.adSoyad}}</p>
+    <p><b>Öğrenci Mail : </b>{{secOgr.email}}</p>
+    <p><b>Öğrencinin Ödev Sayısı: </b>{{secOgr.uyeOdevSayisi}}</p>
+  </div>
+  <div>
+    <mat-form-field appearance="outline">
+      <mat-label>Öğrenciler</mat-label>
+      <mat-select placeholder="Dersler" (valueChange)="kayitFiltrele($event)">
+        <mat-option *ngFor="let uye of uyeler" [value]="uye.uyeId">{{uye.adSoyad}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+
+
+  <button mat-mini-fab style="margin-bottom: 20px;" color="primary" matTooltip="Odev Ekle" (click)="OdevEkle()" *ngIf="apiServis.yetkiKontrol(['ogretmen'])">
+    <mat-icon aria-label="label">add</mat-icon>
+  </button>
+  <mat-table [dataSource]="dataSource" matSort>
+    <ng-container matColumnDef="kayitId">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>#</mat-header-cell>
+      <mat-cell *matCellDef="let kayit"> {{kayit.kayitId}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="odevAdi">
+      <mat-header-cell *matHeaderCellDef>Ödev Adı</mat-header-cell>
+      <mat-cell *matCellDef="let kayit"> {{kayit.odevBilgi.odevAdi}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="odevAciklama">
+      <mat-header-cell *matHeaderCellDef>Ödev Açıklaması</mat-header-cell>
+      <mat-cell *matCellDef="let kayit"> {{kayit.odevBilgi.odevAciklama}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="odevSonTarih">
+      <mat-header-cell *matHeaderCellDef>Ödev Son Tarihi</mat-header-cell>
+      <mat-cell *matCellDef="let kayit"> {{kayit.odevBilgi.odevSonTarih | date:'yyyy/MM/dd'}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="odevDersAdi">
+      <mat-header-cell *matHeaderCellDef>Ödevin Dersi</mat-header-cell>
+      <mat-cell *matCellDef="let kayit"> {{kayit.odevBilgi.odevDersAdi}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="adSoyad">
+      <mat-header-cell *matHeaderCellDef>Öğrenci Adı</mat-header-cell>
+      <mat-cell *matCellDef="let kayit"> {{kayit.uyeBilgi.adSoyad}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="kayitDurum">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Ödev Durumu</mat-header-cell>
+      <mat-cell *matCellDef="let kayit">
+        <button style="cursor: default;" mat-button color="primary" *ngIf="kayit.kayitDurum == 1">Yapıldı</button>
+        <button style="cursor: default;" mat-button color="warn" *ngIf="kayit.kayitDurum == 0">Yapılmadı</button>
+      </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="islemler">
+      <mat-header-cell *matHeaderCellDef>İşlemler</mat-header-cell>
+      <mat-cell *matCellDef="let kayit">
+        <button mat-icon-button color="primary" matTooltip="Odev Düzenle" (click)="OdevDuzenle(kayit)" *ngIf="apiServis.yetkiKontrol(['ogretmen'])">
+          <mat-icon aria-label="label">edit</mat-icon>
+        </button>
+        <button mat-icon-button color="warn" matTooltip="Odev Sil" (click)="OdevSil(kayit)" *ngIf="apiServis.yetkiKontrol(['ogretmen'])">
+          <mat-icon aria-label="label">delete</mat-icon>
+        </button>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+  <mat-paginator [pageSizeOptions]="[5, 7,10]" showFirstLastButtons></mat-paginator>
+</div>

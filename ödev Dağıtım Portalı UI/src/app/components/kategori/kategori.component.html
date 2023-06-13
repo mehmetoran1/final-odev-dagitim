@@ -1,0 +1,45 @@
+<div class="container">
+  <h1>Kategoriler</h1>
+
+  <div>
+    <mat-form-field appearance="outline">
+      <mat-label>Aranacak Kelime</mat-label>
+      <input matInput placeholder="Ara..." (keyup)="filtrele($event)">
+    </mat-form-field>&nbsp;&nbsp;&nbsp;
+
+  <button mat-mini-fab style="margin-bottom: 20px;" color="primary" matTooltip="Kategori Ekle" (click)="KategoriEkle()" *ngIf="apiServis.yetkiKontrol(['ogretmen'])">
+    <mat-icon aria-label="label">add</mat-icon>
+  </button>
+  <mat-table [dataSource]="dataSource" matSort>
+    <ng-container matColumnDef="kategoriId">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>#</mat-header-cell>
+      <mat-cell *matCellDef="let kayit"> {{kayit.kategoriId}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="kategoriAdi">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Kategori Adı</mat-header-cell>
+      <mat-cell *matCellDef="let kayit"> {{kayit.kategoriAdi}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="kategoriDersSayisi">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Kategori Ders Sayısı</mat-header-cell>
+      <mat-cell *matCellDef="let kayit"> {{kayit.kategoriDersSayisi}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="islemler">
+      <mat-header-cell *matHeaderCellDef>İşlemler</mat-header-cell>
+      <mat-cell *matCellDef="let kayit" >
+        <button mat-icon-button color="primary" matTooltip="Dersler" [routerLink]="['/kat-ders/',kayit.kategoriId]">
+          <mat-icon aria-label="label">article</mat-icon>
+        </button>
+        <button mat-icon-button color="primary" matTooltip="Kategori Düzenle" (click)="KategoriDuzenle(kayit)" *ngIf="apiServis.yetkiKontrol(['ogretmen'])">
+          <mat-icon aria-label="label">edit</mat-icon>
+        </button>
+        <button mat-icon-button color="warn" matTooltip="Kategori Sil" (click)="KategoriSil(kayit)" *ngIf="apiServis.yetkiKontrol(['ogretmen'])">
+          <mat-icon aria-label="label">delete</mat-icon>
+        </button>
+      </mat-cell>
+    </ng-container>
+    
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+  <mat-paginator [pageSizeOptions]="[5, 7,10]" showFirstLastButtons></mat-paginator>
+</div>

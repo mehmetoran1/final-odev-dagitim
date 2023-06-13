@@ -1,0 +1,63 @@
+<div class="container">
+  <h1>Ödev Kayıtları</h1>
+
+  <div>
+
+    <mat-radio-group aria-label="Select an option" (change)="changeDurum($event)">
+      <mat-radio-button [value]="1">Yapıldı</mat-radio-button>
+      <mat-radio-button [value]="0">Yapılmadı</mat-radio-button>
+      <mat-radio-button [value]="2">Hepsi</mat-radio-button>
+    </mat-radio-group>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+  </div>
+
+
+
+  <button mat-mini-fab style="margin-bottom: 20px;" color="primary" matTooltip="Kayıt Ekle" (click)="KayitEkle()" *ngIf="apiServis.yetkiKontrol(['ogretmen'])">
+    <mat-icon aria-label="label">add</mat-icon>
+  </button>
+  <mat-table [dataSource]="dataSource" matSort>
+    <ng-container matColumnDef="kayitId">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>#</mat-header-cell>
+      <mat-cell *matCellDef="let kayit"> {{kayit.kayitId}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="uyeBilgi">
+      <mat-header-cell *matHeaderCellDef>Öğrenci Adı</mat-header-cell>
+      <mat-cell *matCellDef="let kayit"> {{kayit.uyeBilgi?.adSoyad}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="odevBilgi">
+      <mat-header-cell *matHeaderCellDef>Ödev Adı</mat-header-cell>
+      <mat-cell *matCellDef="let kayit"> {{kayit.odevBilgi?.odevAdi}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="odevAciklama">
+      <mat-header-cell *matHeaderCellDef>Açıklama</mat-header-cell>
+      <mat-cell *matCellDef="let kayit"> {{kayit.odevBilgi?.odevAciklama}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="odevSonTarih">
+      <mat-header-cell *matHeaderCellDef>Son Tarih</mat-header-cell>
+      <mat-cell *matCellDef="let kayit"> {{kayit.odevBilgi?.odevSonTarih | date:'yyyy-MM-dd'}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="kayitDurum">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Ödev Durumu</mat-header-cell>
+      <mat-cell *matCellDef="let kayit">
+        <button style="cursor: default;" mat-button color="primary" *ngIf="kayit.kayitDurum == 1">Yapıldı</button>
+        <button style="cursor: default;" mat-button color="warn" *ngIf="kayit.kayitDurum == 0">Yapılmadı</button>
+      </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="islemler">
+      <mat-header-cell *matHeaderCellDef>İşlemler</mat-header-cell>
+      <mat-cell *matCellDef="let kayit">
+        <button mat-icon-button color="primary" matTooltip="Kayıt Düzenle" (click)="KayitDuzenle(kayit)" *ngIf="apiServis.yetkiKontrol(['ogretmen'])">
+          <mat-icon aria-label="label">edit</mat-icon>
+        </button>
+        <button mat-icon-button color="warn" matTooltip="Kayıt Sil" (click)="KayitSil(kayit)" *ngIf="apiServis.yetkiKontrol(['ogretmen'])">
+          <mat-icon aria-label="label">delete</mat-icon>
+        </button>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+  <mat-paginator [pageSizeOptions]="[5, 7,10]" showFirstLastButtons></mat-paginator>
+</div>

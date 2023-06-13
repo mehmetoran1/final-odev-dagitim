@@ -1,0 +1,51 @@
+<div class="container" *ngIf="apiServis.yetkiKontrol(['admin']) || apiServis.yetkiKontrol(['ogretmen'])">
+    <h2>Üye Adı {{uye?.adSoyad}}</h2>&nbsp;
+    <h2>Eklenen Son Ödevler </h2>&nbsp;&nbsp;&nbsp;
+
+    <mat-card class="example-card" *ngFor="let kayit of kayitlar">
+        <mat-card-header>
+            <mat-card-title>Ödev Adı : {{kayit.odevBilgi.odevAdi}}</mat-card-title>
+            <mat-card-title>Ödevin Son Tarihi : {{kayit.odevBilgi.odevSonTarih | date:'yyyy/MM/dd'}}</mat-card-title>
+            <mat-card-subtitle>Açıklama : {{kayit.odevBilgi.odevAciklama}}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+            <p>Ödevin Dersi : {{kayit.odevBilgi.odevDersAdi}}</p>
+            <p>Ödeve Kayıtlı Öğrenci Sayısı : {{kayit.odevBilgi.odevOgrenciSayisi}} <a
+                    [href]="'/odevuye/'+kayit.odevBilgi.odevId">Öğrenciler</a></p>
+
+            <button mat-button color="warn" *ngIf="kayit.kayitDurum == 0">Yapılmadı</button>
+            <button mat-button color="primary" *ngIf="kayit.kayitDurum == 1">Yapıldı</button>
+        </mat-card-content>
+    </mat-card>&nbsp;&nbsp;&nbsp;
+</div>
+
+
+<div class="container" *ngIf="apiServis.yetkiKontrol(['ogrenci']) ">
+    <h2>Öğrenci Adı : {{uye?.adSoyad}}</h2>
+    <h2>Ödevlerim</h2>
+
+    <mat-card class="example-card" *ngFor="let kayit of kayitlar">
+        <mat-card-header>
+            <mat-card-title>Ödev Adı : {{kayit.odevBilgi.odevAdi}}</mat-card-title> 
+            <mat-card-title>Ödevin Son Tarihi : {{kayit.odevBilgi.odevSonTarih | date:'yyyy/MM/dd'}}</mat-card-title>
+            <mat-card-subtitle>Açıklama : {{kayit.odevBilgi.odevAciklama}}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+            <p>Ödevin Dersi : {{kayit.odevBilgi.odevDersAdi}}</p>
+            <p>Ödeve Kayıtlı Öğrenci Sayısı : {{kayit.odevBilgi.odevOgrenciSayisi}} </p>
+
+            <button mat-button color="warn" *ngIf="kayit.kayitDurum == 0">Yapılmadı</button>
+            <button mat-button color="primary" *ngIf="kayit.kayitDurum == 1">Yapıldı</button>
+        </mat-card-content>
+        <mat-card-actions>
+            <button mat-button color="warn" *ngIf="kayit.kayitDurum == 0" (click)="OdevTamamla(kayit)">Ödevi Tamamla</button>
+
+        </mat-card-actions>
+    </mat-card>&nbsp;&nbsp;&nbsp;
+</div>
+
+<div class="container" *ngIf="!apiServis.OturumKontrol()">
+    <h1  style="color: red;">GİRİŞ YAPINIZ!!!</h1>
+    <button mat-raised-button color="accent" routerLink="/login">Oturum Ac</button>
+
+</div>

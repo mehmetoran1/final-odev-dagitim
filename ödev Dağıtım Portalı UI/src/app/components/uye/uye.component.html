@@ -1,0 +1,81 @@
+<div class="container">
+  <h1>Üyeler</h1>
+
+  <div>
+    <mat-form-field appearance="outline">
+      <mat-label>Aranacak Kelime</mat-label>
+      <input matInput placeholder="Ara..." (keyup)="filtrele($event)">
+    </mat-form-field>&nbsp;&nbsp;&nbsp;
+  
+  
+    <mat-form-field appearance="outline">
+      <mat-label>Üye Tipi</mat-label>
+      <mat-select placeholder="Üye Tipi" name="uyeTipi" (valueChange)="uyeTipiFiltrele($event)" >
+        <mat-option [value]="3">Hepsi</mat-option>
+        <mat-option [value]="0">Öğrenci</mat-option>
+        <mat-option [value]="1">Öğretmen</mat-option>
+        <mat-option [value]="2">Admin</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  
+
+
+  <button mat-mini-fab style="margin-bottom: 20px;" color="primary" matTooltip="Üye Ekle" (click)="UyeEkle()">
+    <mat-icon aria-label="label">add</mat-icon>
+  </button>
+  <mat-table [dataSource]="dataSource" matSort>
+    <ng-container matColumnDef="uyeId">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>#</mat-header-cell>
+      <mat-cell *matCellDef="let kayit"> {{kayit.uyeId}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="kullaniciAdi">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Kullanıcı Adı</mat-header-cell>
+      <mat-cell *matCellDef="let kayit"> {{kayit.kullaniciAdi}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="adSoyad">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Ad Soyad</mat-header-cell>
+      <mat-cell *matCellDef="let kayit"> {{kayit.adSoyad}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="email">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Email</mat-header-cell>
+      <mat-cell *matCellDef="let kayit"> {{kayit.email}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="parola">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Parola</mat-header-cell>
+      <mat-cell *matCellDef="let kayit"> {{kayit.parola}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="uyeTipi">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Üye Tipi</mat-header-cell>
+      <mat-cell *matCellDef="let kayit">
+        <span *ngIf="kayit.uyeTipi == 0">Öğrenci</span>
+        <span *ngIf="kayit.uyeTipi == 1">Öğretmen</span>
+        <span *ngIf="kayit.uyeTipi == 2">Admin</span>
+      </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="uyeOdevSayisi">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Üye Odev Sayısı</mat-header-cell>
+      <mat-cell *matCellDef="let kayit">
+        <span *ngIf="kayit.uyeTipi == 0">{{kayit.uyeOdevSayisi}}</span>
+      </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="islemler">
+      <mat-header-cell *matHeaderCellDef>İşlemler</mat-header-cell>
+      <mat-cell *matCellDef="let kayit" >
+        <button mat-icon-button color="primary" matTooltip="Öğrenci Ödevleri" [routerLink]="['/uyeodev/',kayit.uyeId]" *ngIf="kayit.uyeTipi == 0">
+          <mat-icon aria-label="label">article</mat-icon>
+        </button>
+        <button mat-icon-button color="primary" matTooltip="Üye Düzenle" (click)="UyeDuzenle(kayit)">
+          <mat-icon aria-label="label">edit</mat-icon>
+        </button>
+        <button mat-icon-button color="warn" matTooltip="Üye Sil" (click)="UyeSil(kayit)">
+          <mat-icon aria-label="label">delete</mat-icon>
+        </button>
+      </mat-cell>
+    </ng-container>
+    
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+  <mat-paginator [pageSizeOptions]="[5, 7,10]" showFirstLastButtons></mat-paginator>
+</div>

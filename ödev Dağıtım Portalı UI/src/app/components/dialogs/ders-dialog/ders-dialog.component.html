@@ -1,0 +1,33 @@
+<mat-toolbar  color="primary">
+  <span>{{dialogBaslik}}</span>
+</mat-toolbar>
+<div mat-dialog-content>
+  <div class="container">
+    <form [formGroup]="frm">
+      <mat-form-field appearance="outline">
+        <mat-label>Ders Adı</mat-label>
+          <input matInput placeholder="Ders Adı" formControlName="dersAdi" name="dersAdi" required="" type="text">
+        </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Ders Kodu</mat-label>
+          <input matInput placeholder="Ders Kodu" formControlName="dersKodu" name="dersKodu" required="" type="text">
+        </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Ders Kredisi</mat-label>
+          <input matInput placeholder="Ders Kredisi" formControlName="dersKredi" name="dersKredi" required="" type="text">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" *ngIf="katIdVar == false">
+        <mat-label>Kategori</mat-label>
+        <mat-select placeholder="Kategori" formControlName="dersKategoriId" required>
+          <mat-option *ngFor="let kat of kategoriler" [value]="kat.kategoriId" >{{kat.kategoriAdi}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </form>
+  </div>
+</div>
+<mat-dialog-actions>
+  <button mat-raised-button color="primary" (click)="dialogRef.close(frm.value)" [disabled]="frm.invalid" >Kaydet</button>&nbsp;
+  <button mat-raised-button color="warn"     (click)="dialogRef.close(undefined)">İptal</button>&nbsp;
+  <!-- <button mat-raised-button color="warn" (click)="dialogRef.close(false)">İptal</button> -->
+</mat-dialog-actions>

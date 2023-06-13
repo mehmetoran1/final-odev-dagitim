@@ -1,0 +1,54 @@
+<mat-toolbar color="primary">
+  <span>{{dialogBaslik}}</span>
+</mat-toolbar>
+<div mat-dialog-content>
+  <div class="container">
+    <form [formGroup]="frm">
+      <div>
+        <mat-form-field *ngIf="odevIdVar">
+          <mat-label>Öğrenciler</mat-label>
+          <mat-select formControlName="kayitUyeId">
+            <mat-option *ngFor="let ogr of ogrenciler" [value]="ogr.uyeId">{{ogr.adSoyad}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+  
+        <mat-form-field *ngIf="uyeIdVar">
+          <mat-label>Ödevler</mat-label>
+          <mat-select formControlName="kayitOdevId">
+            <mat-option *ngFor="let odev of odevler" [value]="odev.odevId">{{odev.odevAdi}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div *ngIf="!uyeIdVar && !odevIdVar">
+        <mat-form-field >
+          <mat-label>Öğrenciler</mat-label>
+          <mat-select formControlName="kayitUyeId">
+            <mat-option *ngFor="let ogr of ogrenciler" [value]="ogr.uyeId">{{ogr.adSoyad}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+  
+        <mat-form-field>
+          <mat-label>Ödevler</mat-label>
+          <mat-select formControlName="kayitOdevId">
+            <mat-option *ngFor="let odev of odevler" [value]="odev.odevId">{{odev.odevAdi}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <mat-form-field *ngIf="islem == 'duzenle'">
+        <mat-label>Kayıt Durumu</mat-label>
+        <mat-select formControlName="kayitDurum">
+          <mat-option [value]="1">Yapıldı</mat-option>
+          <mat-option [value]="0">Yapılmadı</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </form>
+  </div>
+</div>
+<pre>
+</pre>
+<mat-dialog-actions>
+  <button mat-raised-button color="primary" (click)="dialogRef.close(frm.value)"[disabled]="frm.invalid">Kaydet</button>&nbsp;
+  <button mat-raised-button color="warn" (click)="dialogRef.close(undefined)">İptal</button>&nbsp;
+</mat-dialog-actions>

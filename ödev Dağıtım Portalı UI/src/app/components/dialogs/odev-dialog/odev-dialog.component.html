@@ -1,0 +1,38 @@
+<mat-toolbar  color="primary">
+  <span>{{dialogBaslik}}</span>
+</mat-toolbar>
+<div mat-dialog-content>
+  <div class="container">
+    <form [formGroup]="frm">
+      <mat-form-field appearance="outline">
+        <mat-label>Ödev Adı</mat-label>
+          <input matInput placeholder="Ödev Adı" formControlName="odevAdi" name="odevAdi" required="" type="text">
+        </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Ödev Açıklaması</mat-label>
+          <textarea matInput placeholder="Ödev Açıklaması" formControlName="odevAciklama" name="odevAciklama" required=""></textarea>
+        </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Ödev Son Tarihi</mat-label>
+          <input matInput [matDatepicker]="picker" placeholder="Ödev Son Tarihi" formControlName="odevSonTarih" required="">
+          <mat-hint>MM/DD/YYYY</mat-hint>
+          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" *ngIf="dersIdVar == false">
+        <mat-label>Ders</mat-label>
+        <mat-select placeholder="Ders" formControlName="odevDersId" required>
+          <mat-option *ngFor="let ders of dersler" [value]="ders.dersId" >{{ders.dersAdi}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </form>
+  </div>
+</div>
+<pre>
+</pre>
+<mat-dialog-actions>
+  <button mat-raised-button color="primary" (click)="dialogRef.close(frm.value)" [disabled]="frm.invalid" >Kaydet</button>&nbsp;
+  <button mat-raised-button color="warn"     (click)="dialogRef.close(undefined)">İptal</button>&nbsp;
+  <!-- <button mat-raised-button color="warn" (click)="dialogRef.close(false)">İptal</button> -->
+</mat-dialog-actions>

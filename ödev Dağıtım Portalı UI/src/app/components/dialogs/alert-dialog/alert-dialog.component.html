@@ -1,0 +1,12 @@
+<mat-dialog-content>
+  <mat-toolbar [color]="dialogIslem ? 'primary' : 'warn'" class="mat-elevation-z8">
+    <span>{{dialogBaslik}}</span>
+  </mat-toolbar>
+  <div class="container">
+    <h3>{{dialogMesaj}}</h3>
+  </div>
+
+  <mat-dialog-actions>
+    <button mat-raised-button [color]="dialogIslem ? 'primary' : 'warn'" (click)="dialogRef.close()">Kapat</button>
+  </mat-dialog-actions>
+</mat-dialog-content>

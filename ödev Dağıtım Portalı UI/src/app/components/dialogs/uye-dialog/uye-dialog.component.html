@@ -1,0 +1,40 @@
+<mat-toolbar color="primary">
+  <span>{{dialogBaslik}}</span>
+</mat-toolbar>
+<div mat-dialog-content>
+  <div class="container">
+    <form [formGroup]="frm">
+      <mat-form-field appearance="outline">
+        <mat-label>Kullanıcı Adı</mat-label>
+        <input matInput placeholder="Kullanıcı Adı" formControlName="kullaniciAdi" name="kullaniciAdi" required=""
+          type="text">
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Ad Soyad</mat-label>
+        <input matInput placeholder="Ad Soyad" formControlName="adSoyad" name="adSoyad" required="" type="text">
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Email</mat-label>
+        <input matInput placeholder="Email" formControlName="email" name="email" required="" type="text">
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Parola</mat-label>
+        <input matInput placeholder="Parola" formControlName="parola" name="parola" required="" type="text">
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Üye Tipi</mat-label>
+        <mat-select placeholder="Üye Tipi" formControlName="uyeTipi" name="uyeTipi" required="">
+          <mat-option [value]="0">Öğrenci</mat-option>
+          <mat-option [value]="1">Öğretmen</mat-option>
+          <mat-option [value]="2">Admin</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </form>
+  </div>
+</div>
+<mat-dialog-actions>
+  <button mat-raised-button color="primary" (click)="dialogRef.close(frm.value)"
+    [disabled]="frm.invalid">Kaydet</button>&nbsp;
+  <button mat-raised-button color="warn" (click)="dialogRef.close(undefined)">İptal</button>&nbsp;
+  <!-- <button mat-raised-button color="warn" (click)="dialogRef.close(false)">İptal</button> -->
+</mat-dialog-actions>
